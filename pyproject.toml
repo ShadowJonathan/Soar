@@ -20,7 +20,7 @@ requires = ["pytoml>=0.1", "enscons", "wheel", "scons==4.4.0"]
 build-backend = "enscons.api"
 
 [tool.cibuildwheel]
-# build-verbosity = 3
+build-verbosity = 3
 skip = "*-musllinux_*"
 
 [tool.cibuildwheel.linux]
