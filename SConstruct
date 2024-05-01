@@ -181,9 +181,12 @@ env = Environment(
     SCONS_HOME=os.path.join(script_dir, 'scons', 'scons-local-4.4.0')
 )
 
+wheel_tag = ""
+
 if enscons_active:
     env['PACKAGE_METADATA'] = dict(toml.load(open('pyproject.toml')))['project']
-    env['WHEEL_TAG'] = enscons.get_binary_tag()
+    wheel_tag = enscons.get_binary_tag()
+    env['WHEEL_TAG'] = wheel_tag
 
 env['ENSCONS_ACTIVE'] = enscons_active
 
@@ -352,7 +355,10 @@ if 'MSVSSolution' in env['BUILDERS']:
     if env['DEBUG']:
         g_msvs_variant = 'Debug|x64'
     else:
-        g_msvs_variant = 'Release|x64'
+        if "win32" in wheel_tag:
+            g_msvs_variant = 'Release|Win32'
+        else:
+            g_msvs_variant = 'Release|x64'
 
 Export('g_msvs_variant')
 
