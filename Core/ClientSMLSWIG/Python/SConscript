@@ -17,7 +17,8 @@ python_sml_alias = clone['SML_PYTHON_ALIAS']
 
 inc_path = sysconfig.get_path('include')
 if os.name == 'nt':
-    lib_path = os.path.join(sysconfig.get_config_vars('BINDIR')[0], 'libs')
+    # lib_path = os.path.join(sysconfig.get_config_vars('BINDIR')[0], 'libs')
+    lib_path = sysconfig.get_config_vars('BINLIBDEST')[0]
     pylib = 'python' + sysconfig.get_config_vars('VERSION')[0]
 else:
     lib_path = sysconfig.get_config_vars('LIBDIR')[0]

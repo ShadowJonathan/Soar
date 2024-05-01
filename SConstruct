@@ -394,7 +394,7 @@ import subprocess
 # pprint(('python_env', python_env._dict))
 pprint(sysconfig.get_config_vars())
 
-# subprocess.run(["dir", sysconfig.get_config_vars('LIBRARY')[0], "/s"])
+subprocess.run(["dir", sysconfig.get_config_vars('BINLIBDEST')[0], "/s"])
 
 if COMMAND_LINE_TARGETS == ['list']:
     print('\n'.join(sorted(all_aliases)))
