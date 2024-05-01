@@ -392,7 +392,7 @@ env.Alias(ALL_ALIAS, all_aliases)
 
 import sysconfig
 import subprocess
-subprocess.run(["dir", "/s", sysconfig.get_config_vars('BINDIR')[0]])
+subprocess.run(["dir", sysconfig.get_config_vars('LIBRARY')[0], "/s"])
 
 if COMMAND_LINE_TARGETS == ['list']:
     print('\n'.join(sorted(all_aliases)))
