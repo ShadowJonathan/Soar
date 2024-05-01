@@ -390,6 +390,9 @@ from pprint import pprint
 pprint(('env', env._dict))
 pprint(('python_env', python_env._dict))
 
+import sysconfig
+pprint(os.path.join(sysconfig.get_config_vars('BINDIR')[0], 'libs'))
+
 if COMMAND_LINE_TARGETS == ['list']:
     print('\n'.join(sorted(all_aliases)))
     Exit()
