@@ -26,7 +26,7 @@ lib_install_dir = clone['OUT_DIR']
 
 clone.Append(CPPPATH = inc_path)
 
-if not env['ENSCONS_ACTIVE'] and os.name != 'nt':
+if (not env['ENSCONS_ACTIVE']) or os.name == 'nt':
     clone.Append(LIBPATH = lib_path, LIBS = pylib)
 
 if os.name == 'posix':
