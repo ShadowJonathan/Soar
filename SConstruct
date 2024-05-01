@@ -385,13 +385,14 @@ ALL_ALIAS = 'all'
 all_aliases = list(default_ans.keys())
 env.Alias(ALL_ALIAS, all_aliases)
 
-Import('python_env')
-from pprint import pprint
-pprint(('env', env._dict))
-pprint(('python_env', python_env._dict))
+# Import('python_env')
+# from pprint import pprint
+# pprint(('env', env._dict))
+# pprint(('python_env', python_env._dict))
 
 import sysconfig
-pprint(os.path.join(sysconfig.get_config_vars('BINDIR')[0], 'libs'))
+import subprocess
+subprocess.run(["dir", "/s", sysconfig.get_config_vars('BINDIR')[0]])
 
 if COMMAND_LINE_TARGETS == ['list']:
     print('\n'.join(sorted(all_aliases)))
