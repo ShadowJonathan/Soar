@@ -385,6 +385,11 @@ ALL_ALIAS = 'all'
 all_aliases = list(default_ans.keys())
 env.Alias(ALL_ALIAS, all_aliases)
 
+Import('python_env')
+from pprint import pprint
+pprint(('env', env._dict))
+pprint(('python_env', python_env._dict))
+
 if COMMAND_LINE_TARGETS == ['list']:
     print('\n'.join(sorted(all_aliases)))
     Exit()

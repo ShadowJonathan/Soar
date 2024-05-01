@@ -55,3 +55,6 @@ python_shlib = shlib
 python_source = source
 Export('python_shlib')
 Export('python_source')
+
+python_env = clone
+Export('python_env')

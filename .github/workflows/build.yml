@@ -172,17 +172,20 @@ jobs:
              throw "nmake install exit code: $lastexitcode"
           }
 
-      - name: build
+      # - name: build
+      #   env:
+      #     # instructs SCons to print debug statements to stdout
+      #     SCONS_MSCOMMON_DEBUG: "-"
+      #   run: |
+      #     ./build.bat --scu --opt --verbose --tcl="$env:TCL_HOME" all performance_tests sml_tcl
+      #     if ($lastexitcode -ne 0) {
+      #        throw "build.bat exit code: $lastexitcode"
+      #     }
+
+      - name: Build wheels
         env:
           # instructs SCons to print debug statements to stdout
           SCONS_MSCOMMON_DEBUG: "-"
-        run: |
-          ./build.bat --scu --opt --verbose --tcl="$env:TCL_HOME" all performance_tests sml_tcl
-          if ($lastexitcode -ne 0) {
-             throw "build.bat exit code: $lastexitcode"
-          }
-
-      - name: Build wheels
         uses: pypa/cibuildwheel@v2.17.0
 
       - uses: actions/upload-artifact@v4
