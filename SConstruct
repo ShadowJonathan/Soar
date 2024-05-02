@@ -390,10 +390,20 @@ for d in os.listdir('.'):
 if enscons_active:
     Import('python_shlib')
     Import('python_source')
+    Import('soarlib')
+    py_lib_namespace = env['PACKAGE_METADATA']['name']
 
-    whl = env.Whl("platlib", [
-        env.Install("soar_raw", python_shlib), env.InstallAs("soar_raw/__init__.py", python_source)
-    ], root="")
+    sources = [
+        env.Install(py_lib_namespace, python_shlib),
+        env.InstallAs(py_lib_namespace + "/__init__.py", python_source)
+    ]
+
+    if sys.platform == 'darwin':
+        sources.append(
+            env.Install(py_lib_namespace, soarlib)
+        )
+
+    whl = env.Whl("platlib", sources, root="")
     env.WhlFile(source=whl)
 
 if 'MSVSSolution' in env['BUILDERS']:
