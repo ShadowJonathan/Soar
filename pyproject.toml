@@ -29,6 +29,10 @@ a=k.CreateAgent('soar');\
 assert(a.ExecuteCommandLine('echo hello world').strip()=='hello world')"
 """
 
+# Skip testing python 3.8 on ARM64. This is due to a limitation with cibuildwheel:
+# https://github.com/pypa/cibuildwheel/pull/1169#issuecomment-1178727618
+test-skip = "cp38-macosx_*:arm64"
+
 [tool.cibuildwheel.linux]
 repair-wheel-command = """\
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/project/out auditwheel repair -w {dest_dir} {wheel}\
