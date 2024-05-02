@@ -22,6 +22,12 @@ build-backend = "enscons.api"
 [tool.cibuildwheel]
 build-verbosity = 3
 skip = ["*-win32", "*-musllinux_*"]
+test-command = """\
+python -c "import soar_raw;\
+k=soar_raw.Kernel.CreateKernelInNewThread();\
+a=k.CreateAgent('soar');\
+assert(a.ExecuteCommandLine('echo hello world')=='hello world\n')"
+"""
 
 [tool.cibuildwheel.linux]
 repair-wheel-command = """\
@@ -36,4 +42,4 @@ DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$LD_LIBRARY_PATH:$REPAIR_LIBRARY_PATH:$HOME
 DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$LD_LIBRARY_PATH:$REPAIR_LIBRARY_PATH:$HOME/work/Soar/Soar/out delocate-wheel \
 --require-archs {delocate_archs} -w {dest_dir} -v {wheel}\
 """
-before-build = "rm -rf build/; python3 scons/scons.py kernel"
+# before-build = "rm -rf build/; python3 scons/scons.py kernel"

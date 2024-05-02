@@ -391,7 +391,7 @@ if enscons_active:
     Import('python_shlib')
     Import('python_source')
     Import('soarlib')
-    py_lib_namespace = env['PACKAGE_METADATA']['name']
+    py_lib_namespace = env['PACKAGE_METADATA']['name'].replace("-", "_")
 
     sources = [
         env.Install(py_lib_namespace, python_shlib),
@@ -399,7 +399,8 @@ if enscons_active:
     ]
 
     if sys.platform == 'darwin':
-        sources.append(
+        # Build and install first
+        sources.insert(0,
             env.Install(py_lib_namespace, soarlib)
         )
 
