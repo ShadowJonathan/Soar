@@ -26,7 +26,7 @@ test-command = """\
 python -c "import soar_raw;\
 k=soar_raw.Kernel.CreateKernelInNewThread();\
 a=k.CreateAgent('soar');\
-assert(a.ExecuteCommandLine('echo hello world')=='hello world\n')"
+assert(a.ExecuteCommandLine('echo hello world').strip()=='hello world')"
 """
 
 [tool.cibuildwheel.linux]
