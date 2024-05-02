@@ -127,6 +127,14 @@ jobs:
           name: ${{ matrix.os }}-PerformanceTestResults.txt
           path: ./out/SoarPerformanceTests/PerformanceTestResults.txt
 
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.17.0
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
+
   # Using powershell means we need to explicitly stop on failure
   Windows:
     name: build-windows
@@ -195,14 +203,6 @@ jobs:
           if ($lastexitcode -ne 0) {
              throw "build.bat exit code: $lastexitcode"
           }
-
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.17.0
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.whl
 
       - name: Pack artifacts
         shell: bash
@@ -276,3 +276,11 @@ jobs:
         with:
           name: Windows-PerformanceTestResults.txt
           path: ./out/SoarPerformanceTests/PerformanceTestResults.txt
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.17.0
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
