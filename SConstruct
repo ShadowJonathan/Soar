@@ -395,7 +395,7 @@ if enscons_active:
 
     sources = []
 
-    if sys.platform == 'darwin' or sys.platform == 'nt':
+    if sys.platform == 'darwin' or os.name == 'nt':
         # Add soar's library to the wheel directory
         sources += [
             env.Install(py_lib_namespace, soarlib)
