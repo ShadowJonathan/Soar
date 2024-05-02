@@ -393,16 +393,21 @@ if enscons_active:
     Import('soarlib')
     py_lib_namespace = env['PACKAGE_METADATA']['name'].replace("-", "_")
 
-    sources = [
+    sources = []
+
+    if sys.platform == 'darwin':
+        # Build and install soar first.
+        # Install to both the wheel and the out/ file,
+        # so that the linker and delocate properly pick up on it.
+        sources += [
+            env.Install(py_lib_namespace, soarlib),
+            env.Install(env['OUT_DIR'], soarlib)
+        ]
+
+    sources += [
         env.Install(py_lib_namespace, python_shlib),
         env.InstallAs(py_lib_namespace + "/__init__.py", python_source)
     ]
-
-    if sys.platform == 'darwin':
-        # Build and install first
-        sources.insert(0,
-            env.Install(py_lib_namespace, soarlib)
-        )
 
     whl = env.Whl("platlib", sources, root="")
     env.WhlFile(source=whl)
