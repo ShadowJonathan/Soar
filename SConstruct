@@ -395,12 +395,16 @@ if enscons_active:
 
     sources = []
 
-    if sys.platform == 'darwin':
-        # Build and install soar first.
-        # Install to both the wheel and the out/ file,
-        # so that the linker and delocate properly pick up on it.
+    if sys.platform == 'darwin' or sys.platform == 'nt':
+        # Add soar's library to the wheel directory
         sources += [
-            env.Install(py_lib_namespace, soarlib),
+            env.Install(py_lib_namespace, soarlib)
+        ]
+
+    if sys.platform == 'darwin':
+        # For MacOS, also add to the out/ directory,
+        # so the linker and delocator pick up on it properly.
+        sources += [
             env.Install(env['OUT_DIR'], soarlib)
         ]
 
