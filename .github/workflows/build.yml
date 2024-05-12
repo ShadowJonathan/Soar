@@ -279,9 +279,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Get tags
-        run: git fetch
+        with:
+          fetch-depth: 0
 
       - name: Show tags
         run: git describe --long --dirty --always --tags
