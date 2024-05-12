@@ -119,16 +119,6 @@ jobs:
           name: ${{ matrix.os }}-PerformanceTestResults.txt
           path: ./out/SoarPerformanceTests/PerformanceTestResults.txt
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.17.0
-        with:
-          package-dir: Core/ClientSMLSWIG/Python/
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.whl
-
   # Using powershell means we need to explicitly stop on failure
   Windows:
     name: build-windows
@@ -271,6 +261,42 @@ jobs:
           name: Windows-PerformanceTestResults.txt
           path: ./out/SoarPerformanceTests/PerformanceTestResults.txt
 
+  python_wheels:
+    name: wheel-*nix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [
+            ubuntu-latest,
+            # latest available X86_64 target
+            macos-12,
+            # latest is ARM
+            macos-latest,
+
+            windows-latest,
+          ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      # - name: Setup tcl (ubuntu)
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: sudo apt-get update && sudo apt-get install tcl-dev
+
+      # - name: Setup tcl (macos-latest)
+      #   if: matrix.os == 'macos-latest'
+      #   run: brew install tcl-tk
+
+      - name: Setup SWIG (macos-latest)
+        if: matrix.os == 'macos-latest'
+        run: brew install swig
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.17.0
         with:
@@ -278,5 +304,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-windows
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
