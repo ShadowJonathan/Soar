@@ -284,7 +284,7 @@ jobs:
         run: git fetch --tags origin
 
       - name: Show tags
-        run: git tag
+        run: git describe --long --dirty --always --tags
 
       - name: Setup Python
         uses: actions/setup-python@v4
