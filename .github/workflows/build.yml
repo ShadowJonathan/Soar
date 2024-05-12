@@ -281,7 +281,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get tags
-        run: git fetch --tags origin
+        run: git fetch
 
       - name: Show tags
         run: git describe --long --dirty --always --tags
