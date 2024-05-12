@@ -317,7 +317,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
   python_push_dev:
-    name: Upload python wheels to test.pypi.org
+    name: Publish to test.pypi.org
     runs-on: ubuntu-latest
     if: github.event_name != 'schedule' && github.event_name != 'release'
     needs:
@@ -356,7 +356,7 @@ jobs:
           verbose: true
 
   python_push_release:
-    name: Upload python wheels to test.pypi.org
+    name: Publish to pypi.org
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
     needs:
