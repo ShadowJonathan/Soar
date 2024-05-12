@@ -311,3 +311,42 @@ jobs:
         with:
           name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
+
+  python_push_dev:
+    name: Upload python wheels to test.pypi.org
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    needs:
+      # We depend on the python wheel builds because we need their artifacts
+      - python_wheels
+
+      # We depend on the builds themselves to gatekeep the upload if build + testing fails,
+      # usually then also the python wheel build should fail, but the normal builds do more thorough checking.
+      - Posix
+      - Windows
+
+    environment:
+      name: test-pypi
+      url: https://test.pypi.org/p/soar-sml/
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-wheels-*
+          path: wheelhouse/
+          merge-multiple: true
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: wheelhouse
+          skip-existing: true
+          verbose: true
