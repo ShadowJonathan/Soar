@@ -395,15 +395,10 @@ jobs:
           # Older python versions fail install if we dont do this: https://github.com/actions/setup-python/issues/866
           PIP_TRUSTED_HOST: "pypi.python.org pypi.org files.pythonhosted.org"
 
-      - name: Prepare install repo
-        run: |
-          pip3.12 install piprepo
-          piprepo build ./wheelhouse
-
       - name: Run python test command
         # TODO: replace with actual test command: https://github.com/SoarGroup/Soar/issues/460
         run: |
-          pip3.${{ matrix.python-minor }} install soar-sml -i file://./wheelhouse/simple --extra-index-url file://./wheelhouse/simple/soar-sml
+          pip3.${{ matrix.python-minor }} install soar-sml -f wheelhouse --no-index
           python3.${{ matrix.python-minor }} -c "import soar_sml;
           k=soar_sml.Kernel.CreateKernelInNewThread();
           a=k.CreateAgent('soar');
