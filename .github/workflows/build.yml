@@ -397,8 +397,8 @@ jobs:
 
       - name: Prepare install repo
         run: |
-          pip3.12 install pipx
-          python3.12 -m pipx run piprepo build ./wheelhouse
+          pip3.12 install piprepo
+          piprepo build ./wheelhouse
 
       - name: Run python test command
         # TODO: replace with actual test command: https://github.com/SoarGroup/Soar/issues/460
