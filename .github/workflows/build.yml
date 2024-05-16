@@ -396,12 +396,12 @@ jobs:
           PIP_TRUSTED_HOST: "pypi.python.org pypi.org files.pythonhosted.org"
 
       - name: Prepare install repo
-        run: pipx run piprepo build ./wheelhouse
+        run: python3.12 -m pipx run piprepo build ./wheelhouse
 
       - name: Run python test command
         # TODO: replace with actual test command: https://github.com/SoarGroup/Soar/issues/460
         run: |
-          pip3.${{ matrix.python-minor }} install soar-sml -i ./wheelhouse/simple
+          pip3.${{ matrix.python-minor }} install soar-sml -i file://./wheelhouse/simple --extra-index-url file://./wheelhouse/simple/soar-sml
           python3.${{ matrix.python-minor }} -c "import soar_sml;
           k=soar_sml.Kernel.CreateKernelInNewThread();
           a=k.CreateAgent('soar');
