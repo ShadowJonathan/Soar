@@ -341,7 +341,7 @@ jobs:
     name: Test wheel on all python versions
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      # fail-fast: true
       matrix:
         os:
           # linux target which supports all python versions we want to install for
