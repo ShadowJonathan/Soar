@@ -40,8 +40,14 @@ if (not env['ENSCONS_ACTIVE']):
     clone.Append(LIBPATH = lib_path, LIBS = pylib)
 elif os.name == 'nt':
     # For windows specifically, we need to give it a path to find 'python3.lib',
-    # without linking it against 'python3X' (with X being the minor version)
+    # without linking it against 'python3X' (with X being the minor version).
     clone.Append(LIBPATH = lib_path)
+
+    # We'll also tell the compiler to not link to the newer VCRUNTIME140_1.dll,
+    # as VCRUNTIME140.dll is included with python, and to reduce the amount of libraries we'd need to vendor.
+    # See: https://cibuildwheel.pypa.io/en/stable/faq/#windows-importerror-dll-load-failed-the-specific-module-could-not-be-found
+    env.Append(CCFLAGS = '/d2FH4-')
+    clone.Append(CCFLAGS = '/d2FH4-')
 
 if os.name == 'posix':
     clone.Append(CPPFLAGS = Split('-Wno-unused -fno-strict-aliasing'))
