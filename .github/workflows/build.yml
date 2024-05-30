@@ -427,10 +427,14 @@ jobs:
 
       - name: Run test command (Non-Windows)
         if: matrix.os != 'windows-latest'
+        env:
+          PYTHONUTF8: 1
         run: python3.${{ matrix.python-minor }} Core/ClientSMLSWIG/Python/TestPythonSML.py
 
       - name: Run test command (Windows)
         if: matrix.os == 'windows-latest'
+        env:
+          PYTHONUTF8: 1
         run: py -3.${{ matrix.python-minor }} Core/ClientSMLSWIG/Python/TestPythonSML.py
 
   python_push_dev:
