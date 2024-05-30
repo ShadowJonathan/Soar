@@ -100,3 +100,7 @@ python_shlib = shlib
 python_source = source
 Export('python_shlib')
 Export('python_source')
+
+from pprint import pprint
+print("python clone env:")
+pprint(clone)
