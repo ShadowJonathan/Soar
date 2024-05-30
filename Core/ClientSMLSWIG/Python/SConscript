@@ -103,4 +103,4 @@ Export('python_source')
 
 from pprint import pprint
 print("python clone env:")
-pprint(clone)
+pprint(dict(clone))
