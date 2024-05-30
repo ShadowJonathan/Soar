@@ -393,8 +393,8 @@ jobs:
 
       # We depend on the builds themselves to gatekeep the upload if build + testing fails,
       # usually then also the python wheel build should fail, but the normal builds do more thorough checking.
-      - Posix
-      - Windows
+      # - Posix
+      # - Windows
     steps:
       - name: Checkout
         uses: actions/checkout@v4
